@@ -1,0 +1,13 @@
+﻿# Ignorar carpetas de build
+bin/
+obj/
+
+# Ignorar archivos temporales y de usuario
+*.user
+*.suo
+
+# Visual Studio folder
+.vs/
+
+# Publicaciones
+wwwroot/
