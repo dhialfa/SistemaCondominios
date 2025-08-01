@@ -61,7 +61,8 @@ namespace SistemaCondominios.Controllers
             HttpContext.Session.SetInt32("UsuarioId", usuario.UsuarioId);
             HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "MainMenu");
+
         }
 
 
