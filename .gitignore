@@ -11,3 +11,9 @@ obj/
 
 # Publicaciones
 wwwroot/
+
+# Carpeta de migraciones de Entity Framework
+Migrations/
+
+# Archivos de configuración que no deben subirse
+appsettings.json
