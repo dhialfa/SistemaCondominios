@@ -1,0 +1,38 @@
+﻿@model SistemaCondominios.Models.ReservaZonaComun
+
+@{
+    ViewData["Title"] = "Detalles de la Reserva";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-info"><i class="fas fa-info-circle"></i> Detalles de la Reserva</h2>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Propietario</dt>
+    <dd class="col-sm-9">@Model.Propietario?.NombreCompleto</dd>
+
+    <dt class="col-sm-3">Zona Común</dt>
+    <dd class="col-sm-9">@Model.ZonaComun?.Nombre</dd>
+
+    <dt class="col-sm-3">Fecha</dt>
+    <dd class="col-sm-9">@Model.FechaReserva.ToString("dd/MM/yyyy")</dd>
+
+    <dt class="col-sm-3">Hora Inicio</dt>
+    <dd class="col-sm-9">@Model.HoraInicio.ToString(@"hh\:mm")</dd>
+
+    <dt class="col-sm-3">Hora Fin</dt>
+    <dd class="col-sm-9">@Model.HoraFin.ToString(@"hh\:mm")</dd>
+
+    <dt class="col-sm-3">Notas</dt>
+    <dd class="col-sm-9">@Model.Notas</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">@Model.Estado</dd>
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.ReservaId" class="btn btn-warning">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver</a>

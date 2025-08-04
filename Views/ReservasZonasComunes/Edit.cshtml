@@ -1,0 +1,68 @@
+﻿@model SistemaCondominios.Models.ReservaZonaComun
+
+@{
+    ViewData["Title"] = "Editar Reserva";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-warning"><i class="fas fa-edit"></i> Editar Reserva</h2>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+</div>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ReservaId" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="PropietarioId" class="form-label">Propietario</label>
+        <select asp-for="PropietarioId" class="form-control" asp-items="ViewBag.PropietarioId"></select>
+        <span asp-validation-for="PropietarioId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ZonaComunId" class="form-label">Zona Común</label>
+        <select asp-for="ZonaComunId" class="form-control" asp-items="ViewBag.ZonaComunId"></select>
+        <span asp-validation-for="ZonaComunId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaReserva" class="form-label">Fecha de Reserva</label>
+        <input asp-for="FechaReserva" type="date" class="form-control" />
+        <span asp-validation-for="FechaReserva" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="HoraInicio" class="form-label">Hora de Inicio</label>
+        <input asp-for="HoraInicio" type="time" class="form-control" />
+        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="HoraFin" class="form-label">Hora de Fin</label>
+        <input asp-for="HoraFin" type="time" class="form-control" />
+        <span asp-validation-for="HoraFin" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notas" class="form-label">Notas</label>
+        <textarea asp-for="Notas" class="form-control"></textarea>
+        <span asp-validation-for="Notas" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Estado" class="form-label">Estado</label>
+        <select asp-for="Estado" class="form-control">
+            <option value="Pendiente" selected="@(Model.Estado == "Pendiente")">Pendiente</option>
+            <option value="Confirmada" selected="@(Model.Estado == "Confirmada")">Confirmada</option>
+            <option value="Cancelada" selected="@(Model.Estado == "Cancelada")">Cancelada</option>
+            <option value="Finalizado" selected="@(Model.Estado == "Finalizado")">Finalizado</option>
+        </select>
+        <span asp-validation-for="Estado" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+

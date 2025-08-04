@@ -13,6 +13,8 @@ namespace SistemaCondominios.Data
 
         //PROYECTO
         public DbSet<Usuario> Usuarios { get; set; }
-
+        public DbSet<Propietario> Propietarios { get; set; }
+        public DbSet<ZonaComun> ZonasComunes { get; set; }
+        public DbSet<ReservaZonaComun> ReservasZonasComunes { get; set; }
     }
 }

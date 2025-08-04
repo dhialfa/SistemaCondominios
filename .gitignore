@@ -17,3 +17,11 @@ Migrations/
 
 # Archivos de configuración que no deben subirse
 appsettings.json
+
+# Archivos y carpetas comunes en .NET que no deberían subirse
+bin/
+obj/
+*.user
+*.vs
+*.db
+*.log

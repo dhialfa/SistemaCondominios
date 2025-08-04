@@ -1,0 +1,22 @@
+﻿@model SistemaCondominios.Models.Propietario
+
+@{
+    ViewData["Title"] = "Eliminar Propietario";
+}
+
+<h2 class="text-danger">¿Deseas eliminar este propietario?</h2>
+
+<div>
+    <h4>@Model.NombreCompleto</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+    </dl>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="PropietarioId" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
