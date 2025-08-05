@@ -46,14 +46,53 @@ namespace SistemaCondominios.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PropietarioId,NombreCompleto,Email,Telefono,Cedula,NumeroPropiedad,TorreOBloque,Estado")] Propietario propietario)
         {
+            System.Diagnostics.Debug.WriteLine("🟢 Entró al POST de Crear Propietario");
+
+            // Obtener el ID del usuario autenticado
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (int.TryParse(userIdClaim, out int usuarioId))
+            {
+                propietario.UsuarioId = usuarioId;
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("❌ No se pudo obtener el UsuarioId desde el Claim.");
+                ModelState.AddModelError("", "Error interno al asociar el usuario actual.");
+                return View(propietario);
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(propietario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(propietario);
+                    await _context.SaveChangesAsync();
+                    System.Diagnostics.Debug.WriteLine("✅ Propietario guardado con éxito");
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ Error al guardar: {ex.Message}");
+                    ModelState.AddModelError("", "Ocurrió un error al guardar el propietario.");
+                }
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("❗ ModelState inválido:");
+                foreach (var entry in ModelState)
+                {
+                    foreach (var error in entry.Value.Errors)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"❌ {entry.Key}: {error.ErrorMessage}");
+                    }
+                }
+            }
+
             return View(propietario);
         }
+
+
 
         // GET: Propietarios/Edit/5
         public async Task<IActionResult> Edit(int? id)

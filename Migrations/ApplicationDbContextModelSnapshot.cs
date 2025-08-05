@@ -65,7 +65,12 @@ namespace SistemaCondominios.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("PropietarioId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Propietarios");
                 });
@@ -112,6 +117,24 @@ namespace SistemaCondominios.Migrations
                     b.ToTable("ReservasZonasComunes");
                 });
 
+            modelBuilder.Entity("SistemaCondominios.Models.Rol", b =>
+                {
+                    b.Property<int>("RolId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RolId"));
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("RolId");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("SistemaCondominios.Models.Usuario", b =>
                 {
                     b.Property<int>("UsuarioId")
@@ -136,11 +159,16 @@ namespace SistemaCondominios.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UsuarioId");
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("Usuarios");
                 });
@@ -179,6 +207,15 @@ namespace SistemaCondominios.Migrations
                     b.ToTable("ZonasComunes");
                 });
 
+            modelBuilder.Entity("SistemaCondominios.Models.Propietario", b =>
+                {
+                    b.HasOne("SistemaCondominios.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("SistemaCondominios.Models.ReservaZonaComun", b =>
                 {
                     b.HasOne("SistemaCondominios.Models.Propietario", "Propietario")
@@ -196,6 +233,20 @@ namespace SistemaCondominios.Migrations
                     b.Navigation("Propietario");
 
                     b.Navigation("ZonaComun");
+                });
+
+            modelBuilder.Entity("SistemaCondominios.Models.Usuario", b =>
+                {
+                    b.HasOne("SistemaCondominios.Models.Rol", "Rol")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("RolId");
+
+                    b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("SistemaCondominios.Models.Rol", b =>
+                {
+                    b.Navigation("Usuarios");
                 });
 #pragma warning restore 612, 618
         }

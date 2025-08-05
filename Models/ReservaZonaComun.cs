@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaCondominios.Models
 {
+    [Table("ReservasZonasComunes")]
     public class ReservaZonaComun
     {
         [Key]

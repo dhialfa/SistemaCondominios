@@ -16,5 +16,7 @@ namespace SistemaCondominios.Data
         public DbSet<Propietario> Propietarios { get; set; }
         public DbSet<ZonaComun> ZonasComunes { get; set; }
         public DbSet<ReservaZonaComun> ReservasZonasComunes { get; set; }
+        public DbSet<Rol> Roles { get; set; }
+
     }
 }

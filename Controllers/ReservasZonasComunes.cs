@@ -76,17 +76,47 @@ namespace SistemaCondominios.Controllers
         // GET: ReservasZonasComunes/Create
         public IActionResult Create()
         {
-            ViewData["PropietarioId"] = new SelectList(_context.Propietarios, "PropietarioId", "NombreCompleto");
+            var usuario = _context.Usuarios
+                .Include(u => u.Rol)
+                .FirstOrDefault(u => u.Email == User.Identity.Name);
+
+            if (usuario?.Rol?.Nombre == "Condómino")
+            {
+                var propietario = _context.Propietarios
+                    .FirstOrDefault(p => p.UsuarioId == usuario.UsuarioId);
+
+                ViewBag.PropietarioId = propietario?.PropietarioId ?? 0; // usar en el input hidden
+            }
+            else
+            {
+                ViewData["PropietarioId"] = new SelectList(_context.Propietarios, "PropietarioId", "NombreCompleto");
+            }
+
             ViewData["ZonaComunId"] = new SelectList(_context.ZonasComunes, "ZonaComunId", "Nombre");
             return View();
         }
+
 
         // POST: ReservasZonasComunes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReservaId,PropietarioId,ZonaComunId,FechaReserva,HoraInicio,HoraFin,Notas,Estado")] ReservaZonaComun reserva)
         {
-            // Verifica que no exista un horario que se sobreponga y que no esté cancelada
+            var usuario = _context.Usuarios
+                .Include(u => u.Rol)
+                .FirstOrDefault(u => u.Email == User.Identity.Name);
+
+            // Asignar automáticamente PropietarioId si es condómino
+            if (usuario?.Rol?.Nombre == "Condómino")
+            {
+                var propietario = _context.Propietarios
+                    .FirstOrDefault(p => p.UsuarioId == usuario.UsuarioId);
+
+                if (propietario != null)
+                    reserva.PropietarioId = propietario.PropietarioId;
+            }
+
+            // Verificar conflictos de horario
             var existeConflicto = await _context.ReservasZonasComunes
                 .AnyAsync(r => r.ZonaComunId == reserva.ZonaComunId &&
                                r.FechaReserva == reserva.FechaReserva &&
@@ -101,7 +131,6 @@ namespace SistemaCondominios.Controllers
             if (existeConflicto)
                 ModelState.AddModelError("", "La zona ya está reservada en este horario.");
 
-
             if (ModelState.IsValid)
             {
                 _context.Add(reserva);
@@ -109,10 +138,16 @@ namespace SistemaCondominios.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["PropietarioId"] = new SelectList(_context.Propietarios, "PropietarioId", "NombreCompleto", reserva.PropietarioId);
+            // Volver a cargar selects si hay error
+            if (usuario?.Rol?.Nombre != "Condómino")
+            {
+                ViewData["PropietarioId"] = new SelectList(_context.Propietarios, "PropietarioId", "NombreCompleto", reserva.PropietarioId);
+            }
+
             ViewData["ZonaComunId"] = new SelectList(_context.ZonasComunes, "ZonaComunId", "Nombre", reserva.ZonaComunId);
             return View(reserva);
         }
+
 
         // GET: ReservasZonasComunes/Edit/5
         public async Task<IActionResult> Edit(int? id)

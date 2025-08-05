@@ -35,7 +35,9 @@ namespace SistemaCondominios.Controllers
                 return View();
             }
 
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email && u.Activo);
+            var usuario = await _context.Usuarios
+                .Include(u => u.Rol) 
+                .FirstOrDefaultAsync(u => u.Email == email && u.Activo);
 
             if (usuario == null || !BCrypt.Net.BCrypt.Verify(password, usuario.Password))
             {
@@ -45,11 +47,12 @@ namespace SistemaCondominios.Controllers
 
             // ✅ Crear Claims
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()),
-        new Claim(ClaimTypes.Name, usuario.Nombre),
-        new Claim(ClaimTypes.Email, usuario.Email)
-    };
+            {
+                new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()),
+                new Claim(ClaimTypes.Name, usuario.Nombre),
+                new Claim(ClaimTypes.Role, usuario.Rol.Nombre),
+                new Claim(ClaimTypes.Email, usuario.Email)
+            };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);

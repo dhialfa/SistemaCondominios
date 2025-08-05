@@ -14,11 +14,21 @@
 <form asp-action="Create" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="PropietarioId" class="form-label">Propietario</label>
-        <select asp-for="PropietarioId" class="form-control" asp-items="ViewBag.PropietarioId"></select>
-        <span asp-validation-for="PropietarioId" class="text-danger"></span>
-    </div>
+    @if (User.IsInRole("Condómino"))
+    {
+        <input type="hidden" asp-for="PropietarioId" value="@ViewBag.PropietarioId" />
+    }
+    else
+    {
+        <div class="mb-3">
+            <label asp-for="PropietarioId" class="form-label">Propietario</label>
+            <select asp-for="PropietarioId" class="form-control" asp-items="ViewBag.PropietarioId">
+                <option value="">-- Seleccione un propietario --</option>
+            </select>
+            <span asp-validation-for="PropietarioId" class="text-danger"></span>
+        </div>
+    }
+
 
     <div class="mb-3">
         <label asp-for="ZonaComunId" class="form-label">Zona Común</label>

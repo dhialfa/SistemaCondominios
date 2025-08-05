@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaCondominios.Models
 {
@@ -33,5 +34,11 @@ namespace SistemaCondominios.Models
 
         [StringLength(50)]
         public string Estado { get; set; } = "Activo";
+        public int? UsuarioId { get; set; }
+
+        [ForeignKey("UsuarioId")]
+        public Usuario? Usuario { get; set; }
+
+
     }
 }

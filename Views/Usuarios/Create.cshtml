@@ -7,6 +7,17 @@
 <h1>Create</h1>
 
 <h4>Usuario</h4>
+@if (!ViewData.ModelState.IsValid)
+{
+    <ul class="alert alert-danger">
+        @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <li>@modelError.ErrorMessage</li>
+        }
+    </ul>
+}
+
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -43,6 +54,15 @@
                     @Html.DisplayNameFor(model => model.Activo)
                 </label>
             </div>
+            <div class="form-group">
+                <label asp-for="RolId" class="control-label">Rol</label>
+                <select asp-for="RolId" class="form-control" asp-items="ViewBag.Roles">
+                    <option value="">-- Selecciona un rol --</option>
+                </select>
+                <span asp-validation-for="RolId" class="text-danger"></span>
+            </div>
+
+
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
