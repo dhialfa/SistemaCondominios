@@ -1,0 +1,36 @@
+﻿@model Vehiculo
+
+@{
+    ViewData["Title"] = Model.VehiculoId == 0 ? "Agregar Vehículo" : "Editar Vehículo";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!-- Acción dinámica según si se está creando o editando -->
+<form asp-action="@(Model.VehiculoId == 0 ? "Create" : "Edit")" method="post">
+    <!-- Campo oculto para editar -->
+    <input type="hidden" asp-for="VehiculoId" />
+
+    <div class="form-group">
+        <label>Placa</label>
+        <input asp-for="Placa" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label>Tipo Propietario</label>
+        <input asp-for="TipoPropietario" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Nombre Propietario</label>
+        <input asp-for="NombrePropietario" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Fecha Autorización</label>
+        <input asp-for="FechaAutorizacion" class="form-control" type="date" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Cancelar</a>
+</form>

@@ -1,0 +1,15 @@
+﻿@model Vehiculo
+@{
+    ViewData["Title"] = "Detalle del Vehículo";
+}
+
+<h2>Detalle del Vehículo</h2>
+
+<table class="table">
+    <tr><th>Placa</th><td>@Model.Placa</td></tr>
+    <tr><th>Tipo</th><td>@Model.TipoPropietario</td></tr>
+    <tr><th>Propietario</th><td>@Model.NombrePropietario</td></tr>
+    <tr><th>Fecha Autorización</th><td>@Model.FechaAutorizacion?.ToString("dd/MM/yyyy")</td></tr>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Volver</a>

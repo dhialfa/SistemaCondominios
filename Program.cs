@@ -21,6 +21,8 @@ builder.Services.AddSession();
 // DB
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 

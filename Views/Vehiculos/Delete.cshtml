@@ -1,0 +1,32 @@
+﻿@model Vehiculo
+
+@{
+    ViewData["Title"] = "Eliminar Vehículo";
+}
+
+<div class="container py-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h4><i class="fas fa-trash-alt me-2"></i> Confirmar Eliminación</h4>
+        </div>
+        <div class="card-body">
+            <p>¿Estás seguro de que deseas eliminar este vehículo?</p>
+
+            <dl class="row">
+                <dt class="col-sm-3">Placa:</dt>
+                <dd class="col-sm-9">@Model.Placa</dd>
+
+                <dt class="col-sm-3">Propietario:</dt>
+                <dd class="col-sm-9">@Model.NombrePropietario</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="VehiculoId" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt me-1"></i> Confirmar
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

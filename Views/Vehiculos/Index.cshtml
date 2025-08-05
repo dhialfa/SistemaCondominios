@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Vehiculo>
+@{
+    ViewData["Title"] = "Vehículos";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-1"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-1"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container py-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4><i class="fas fa-car me-2"></i> Lista de Vehículos</h4>
+        </div>
+
+        <div class="card-body">
+            <!-- 🟦 FORMULARIO DE BÚSQUEDA -->
+            <form asp-action="Index" method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="placa" class="form-control" placeholder="Buscar por número de placa..." value="@Context.Request.Query["placa"]" />
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+
+
+            <!-- ✅ BOTÓN AGREGAR -->
+            <div class="mb-3 text-end">
+                <a asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-circle me-1"></i> Agregar Vehículo
+                </a>
+            </div>
+
+            <!-- 📋 TABLA -->
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr class="text-center">
+                        <th>Placa</th>
+                        <th>Tipo</th>
+                        <th>Propietario</th>
+                        <th>Autorizado Desde</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Placa</td>
+                            <td>@item.TipoPropietario</td>
+                            <td>@item.NombrePropietario</td>
+                            <td>@item.FechaAutorizacion?.ToString("dd/MM/yyyy") ?? "N/A"</td>
+                            <td class="text-center">
+                                <a asp-action="Details" asp-route-id="@item.VehiculoId" class="btn btn-sm btn-info me-1">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.VehiculoId" class="btn btn-sm btn-warning me-1">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.VehiculoId" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <a asp-controller="MainMenu" asp-action="Index" class="btn btn-outline-secondary mt-3">
+                <i class="fas fa-home me-1"></i> Menú Principal
+            </a>
+        </div>
+    </div>
+</div>
