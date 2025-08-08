@@ -265,17 +265,12 @@ namespace SistemaCondominios.Migrations
             modelBuilder.Entity("SistemaCondominios.Models.Usuario", b =>
                 {
                     b.HasOne("SistemaCondominios.Models.Rol", "Rol")
-                        .WithMany("Usuarios")
+                        .WithMany()
                         .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Rol");
-                });
-
-            modelBuilder.Entity("SistemaCondominios.Models.Rol", b =>
-                {
-                    b.Navigation("Usuarios");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,7 +12,5 @@ namespace SistemaCondominios.Models
         [StringLength(50)]
         public string Nombre { get; set; }
 
-        // Relación con usuarios
-        public ICollection<Usuario> Usuarios { get; set; }
     }
 }

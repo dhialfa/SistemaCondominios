@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SistemaCondominios.Models.Rol>
+
+@{
+    ViewData["Title"] = "Lista de Roles";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-primary"><i class="fas fa-user-tie"></i> Gestión de Propietarios</h2>
+
+    <a asp-controller="MainMenu" asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Volver al Menú Principal
+    </a>
+</div>
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear nuevo Rol</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rol in Model)
+        {
+            <tr>
+                <td>@rol.RolId</td>
+                <td>@rol.Nombre</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@rol.RolId" class="btn btn-primary btn-sm">Editar</a>
+                    <a asp-action="Details" asp-route-id="@rol.RolId" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@rol.RolId" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

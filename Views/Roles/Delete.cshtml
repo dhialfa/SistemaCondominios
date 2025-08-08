@@ -1,0 +1,30 @@
+﻿@model SistemaCondominios.Models.Rol
+
+@{
+    ViewData["Title"] = "Eliminar Rol";
+}
+
+<h2 class="text-danger">Eliminar Rol</h2>
+<hr />
+
+<h4>¿Estás seguro que deseas eliminar este rol?</h4>
+<div class="mb-3">
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9">@Model.RolId</dd>
+
+        <dt class="col-sm-3">Nombre</dt>
+        <dd class="col-sm-9">@Model.Nombre</dd>
+    </dl>
+</div>
+
+<form asp-action="DeleteConfirmed">
+    <input type="hidden" asp-for="RolId" />
+    <button type="submit" class="btn btn-danger">
+        <i class="fas fa-trash-alt"></i> Eliminar
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Cancelar
+    </a>
+</form>
+

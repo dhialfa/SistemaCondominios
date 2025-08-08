@@ -33,7 +33,7 @@ namespace SistemaCondominios.Models
         public int RolId { get; set; }
 
         /*--- Propiedad de navegación, NO obligatoria ---*/
-        [BindNever]                // o [ValidateNever]
+        [BindNever]                
         [ForeignKey(nameof(RolId))]
         public Rol? Rol { get; set; }   // ← nullable
     }
