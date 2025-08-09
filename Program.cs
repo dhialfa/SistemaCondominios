@@ -1,32 +1,41 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SistemaCondominios.Data;
-using SistemaCondominios.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// 1) Requerir auth global
+builder.Services.AddControllersWithViews(options =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
 
-// 🔐 Autenticación con cookies
+// 2) Cookies + auth
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
+    .AddCookie(o =>
     {
-        options.LoginPath = "/Login/Index";
+        o.LoginPath = "/Login/Index";
+        o.AccessDeniedPath = "/Login/Denied"; // <- aquí
+        o.SlidingExpiration = true;
+        o.ExpireTimeSpan = TimeSpan.FromHours(8);
     });
 
-// 🧠 Sesiones
+
+builder.Services.AddAuthorization();
 builder.Services.AddSession();
 
-// DB
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -37,19 +46,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseSession();
-
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-// ✅ Seeders para roles y zonas comunes
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-}
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+)
+// Si quieres forzar auth en TODA la ruta MVC (además del filtro global):
+// .RequireAuthorization()
+;
 
 app.Run();

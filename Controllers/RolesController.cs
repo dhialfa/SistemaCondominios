@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaCondominios.Data;
 using SistemaCondominios.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaCondominios.Controllers
 {
+    [Authorize(Roles = "SuperAdministrador")]
     public class RolesController : Controller
     {
         private readonly ApplicationDbContext _context;

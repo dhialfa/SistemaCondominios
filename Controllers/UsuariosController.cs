@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using SistemaCondominios.Data;
 using SistemaCondominios.Models;
 using BCrypt.Net;   // → NuGet BCrypt.Net-Next
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaCondominios.Controllers
 {
+    [Authorize(Roles = "SuperAdministrador")]
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaCondominios.Controllers
 {
+    [Authorize]
     public class MainMenuController : Controller
     {
         public IActionResult Index()

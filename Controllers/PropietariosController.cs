@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaCondominios.Data;
 using SistemaCondominios.Models;
 
+
 namespace SistemaCondominios.Controllers
 {
+    [Authorize(Roles = "SuperAdministrador,AdministradorCondomina,Propietario")]
     public class PropietariosController : Controller
     {
         private readonly ApplicationDbContext _context;
